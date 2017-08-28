@@ -5,8 +5,7 @@ export default class Students extends Component{
     constructor(props){
         super(props);
         this.state = {
-            students: [],
-            campus: []
+            students: []
         }
         this.handleDelete = this.handleDelete.bind(this);
     }
@@ -15,43 +14,43 @@ export default class Students extends Component{
         axios.get('/api/students')
         .then(res => res.data)
         .then(students => this.setState({students}))
-        let campuses
-        axios.get('/api/campus')
-        .then(res => res.data)
-        .then(campus => {
-            // campuses = campus.map(x=>{x.id, x.name})
-            this.setState({campus: campus})
-        
-    })
     }
 
-    handleDelete(){
+    handleDelete(e){
         
-        console.log('being clicked')
+        let studentId = e.target.getAttribute('data-key');
+        
+        axios.delete(`/api/students/${studentId}`)
+        
+        axios.get('/api/students')
+        .then(res => res.data)
+        .then(students => this.setState({students}))
+         
+        
     }
 
     render(){
-        // console.log(this.state.campus)
+        // console.log(this.state.students)
 
 
     return(
       <div>
-        <table>
+        <table className="table">
             <tbody>
                 <tr>
-                    <th>ID</th>
+                    <th>STUDENT ID</th>
                     <th>NAME</th>
                     <th>CAMPUS</th>
                 </tr>
                 
                     {
-                        this.state.students.map(student =>{
+                        this.state.students.map((student, ind) =>{
                             return (
                                 <tr key={student.id}>
                                     <td >{student.id}</td>
                                     <td>{student.name}</td>
                                     <td>{student.campus.name}</td>
-                                    <td><button onClick={this.handleDelete}>X</button></td>
+                                    <td ><button data-key={student.id} onClick={this.handleDelete} type="button" className="btn btn-danger">X</button></td>
                                 </tr>
                                 
                             )
