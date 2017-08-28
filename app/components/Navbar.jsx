@@ -1,12 +1,14 @@
 import React, {Component} from 'react';
+import { Link } from 'react-router-dom';
 
-const Navbar = ()=> {
+const Navbar = (props)=> {
 
  
     return (
-      <nav>
-        <button>Home</button>
-        <button>Students</button>
+      <nav className="navbar navbar-light bg-faded">
+        <Link to="/"><button type="button" className="btn btn-lg btn-primary" >Home</button></Link>
+        
+        <Link to="/students"><button type="button" className="btn btn-secondary btn-lg" >Students</button></Link>
       
       </nav>
     );

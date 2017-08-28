@@ -24,7 +24,8 @@ export default class Home extends Component{
         // console.log(this.state)
         return(
             <div> 
-                <Navbar />
+                
+
                 <div className="container-fluid">
                     <div className="row"> 
                         <ul id="campus-grid" className="list-unstyled">
@@ -42,6 +43,8 @@ export default class Home extends Component{
                             }
                         </ul>
                     </div>
+
+
                 </div>
             </div>
         )

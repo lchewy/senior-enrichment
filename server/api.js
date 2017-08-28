@@ -12,33 +12,32 @@ const Campus = db.Campuses
 
 // console.log(Students)
 api.get('/campus', (req,res,next) => {
-	// Campus.findAll()
-	//  .then(camps=>{
-	// 	if(camps.length === 0) res.sendStatus(404);
-	// 	else res.json(camps);
-	//  })
+	Campus.findAll()
+	 .then(camps=>{
+		 res.json(camps);
+	 })
 
-	Promise.all([
-		Campus.create({
-			name: "Luna",
-			url: "http://4.bp.blogspot.com/-8Bl5X0bXY_I/TlsGUp4f63I/AAAAAAAACI4/JSC9aei00ns/s1600/moon.jpg"
-		}),
-		Campus.create({
-			name: "Terra",
-			url: "http://serc.carleton.edu/images/earthlabs/globe_from_terra.jpg"
-		}),
-		Campus.create({
-			name: "Mars",
-			url: "http://space-facts.com/wp-content/uploads/mars.jpg"
-		}),
-		Campus.create({
-			name: "Titan",
-			url: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/PIA20016-SaturnMoon-Titan-20151113.jpg/220px-PIA20016-SaturnMoon-Titan-20151113.jpg"
-		})
+	// Promise.all([
+	// 	Campus.create({
+	// 		name: "Luna",
+	// 		url: "http://4.bp.blogspot.com/-8Bl5X0bXY_I/TlsGUp4f63I/AAAAAAAACI4/JSC9aei00ns/s1600/moon.jpg"
+	// 	}),
+	// 	Campus.create({
+	// 		name: "Terra",
+	// 		url: "http://serc.carleton.edu/images/earthlabs/globe_from_terra.jpg"
+	// 	}),
+	// 	Campus.create({
+	// 		name: "Mars",
+	// 		url: "http://space-facts.com/wp-content/uploads/mars.jpg"
+	// 	}),
+	// 	Campus.create({
+	// 		name: "Titan",
+	// 		url: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/PIA20016-SaturnMoon-Titan-20151113.jpg/220px-PIA20016-SaturnMoon-Titan-20151113.jpg"
+	// 	})
 
-	]).then( instance => {
-		res.json(instance)
-	})
+	// ]).then( instance => {
+	// 	res.json(instance)
+	// })
 	.catch(console.error)
 
 })
@@ -56,7 +55,7 @@ api.get('/campus/:id', (req, res, next) =>{
 api.get('/students', (req,res,next) => {
 	Students.findAll({include: [{ all: true, nested: true }]})
 	 .then(allStudents => {
-		 if(allStudents.length === 0) res.sendStatus(404);
+		 if(allStudents.length === 0) res.json([]);
 		 else res.json(allStudents);
 	 })
 })

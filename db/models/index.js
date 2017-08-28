@@ -12,7 +12,7 @@ const Campuses = require('./campuses');
 //student belongs to campuses as campus
 //campus has many students
 Students.belongsTo(Campuses, {as: 'campus'});
-// Students.belongsToMany(Campuses, {through: "site"})
+// Students.belongsToMany(Campuses, {through: "site"}) 
 Campuses.hasMany(Students)
 
 

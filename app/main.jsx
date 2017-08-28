@@ -7,27 +7,20 @@ import { Route, IndexRedirect, hashHistory, BrowserRouter as Router } from 'reac
 import store from './store'
 // import Root from './components/Root'
 
-import Home from './components/Home'
-import Students from './components/Students'
-import AddPerson from './components/AddPerson'
-import Campus from './components/Campus'
+// import Home from './components/Home'
+// import Students from './components/Students'
+// import AddPerson from './components/AddPerson'
+// import Campus from './components/Campus'
+import Front from './components/Front'
 
 
 render (
   <Provider store={store}>
-
-    <Router history={hashHistory} >
-
-
-
-       <Route path='/students' component={Students} />
-        {/*<Route path='/newstudent' component={AddPerson} />*/}
-        {/*<Route path='/home' component={Home} />*/}
-      
-       
-
-    
-    </Router>
+    <Front />
+  { /* <Router >
+    <Route path='/newstudent' component={AddPerson} />
+    </Router>*/}
+  
   </Provider>
 ,
   document.getElementById('main')
@@ -47,3 +40,17 @@ render (
         // <Route path='/newstudent' component={AddPerson} />
         // <Route path='/campus' component={Campus} />
         // <IndexRedirect to='/home' />
+
+
+          // <Router history={hashHistory} >
+
+
+
+    //    <Route path='/' component={Front} />
+    //     {/*<Route path='/newstudent' component={AddPerson} />*/}
+    //     {/*<Route path='/home' component={Home} />*/}
+      
+       
+        
+    
+    // </Router>

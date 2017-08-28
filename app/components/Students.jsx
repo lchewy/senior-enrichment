@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 export default class Students extends Component{
     constructor(props){
@@ -30,11 +31,14 @@ export default class Students extends Component{
     }
 
     render(){
-        // console.log(this.state.students)
+        console.log(this.state.students)
 
 
     return(
       <div>
+        <Link to="/newstudent"><button style={{float: "right"}} type="button" className="btn btn-outline-secondary"><h4>+</h4></button></Link>
+        <br/>
+        <br/>
         <table className="table">
             <tbody>
                 <tr>
@@ -45,7 +49,9 @@ export default class Students extends Component{
                 
                     {
                         this.state.students.map((student, ind) =>{
+                            console.log(student)
                             return (
+                                
                                 <tr key={student.id}>
                                     <td >{student.id}</td>
                                     <td>{student.name}</td>
