@@ -31,9 +31,6 @@ export default class Students extends Component{
     }
 
     render(){
-        console.log(this.state.students)
-
-
     return(
       <div>
         <Link to="/newstudent"><button style={{float: "right"}} type="button" className="btn btn-outline-secondary"><h4>+</h4></button></Link>

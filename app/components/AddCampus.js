@@ -51,7 +51,7 @@ export default class AddCampus extends Component{
                             className="form-control"
                             type="text" 
                             onChange={this.handleType}
-                        
+                            required 
                         />
 
                          <br/>

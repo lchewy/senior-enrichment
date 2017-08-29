@@ -13,7 +13,7 @@ const Campuses = require('./campuses');
 //campus has many students
 Students.belongsTo(Campuses, {as: 'campus'});
 // Students.belongsToMany(Campuses, {through: "site"}) 
-Campuses.hasMany(Students)
+Campuses.hasMany(Students, {onDelete: 'CASCADE'})
 
 
 module.exports = {

@@ -61,8 +61,8 @@ export default class AddPerson extends Component{
                          <div className="form-group">
                             <label className="col-xs-2 control-label">Campus</label>
                              <div className="col-xs-10">
-                                <select className="form-control" onChange={this.handleSelect}>
-                                
+                                <select className="form-control" onChange={this.handleSelect} required>
+                                    <option></option>
                                     {
                                         this.state.campus.map(campus =>{
                                             return <option key={campus.id} value={campus.id}>{campus.name}</option>

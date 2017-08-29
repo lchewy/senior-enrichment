@@ -12,8 +12,8 @@ export default class Home extends Component{
             inputVal: ''
         }
 
-        this.handleAddCampus = this.handleAddCampus.bind(this);
         this.handleType = this.handleType.bind(this);
+        this.handleDestroy = this.handleDestroy.bind(this);
     }
 
     componentDidMount(){
@@ -24,21 +24,35 @@ export default class Home extends Component{
         })
     }
 
-    handleAddCampus(){
-        axios.post()
 
-    }
 
     handleType(e){
-        console.log(e.target.value)
         this.setState({inputVal: e.target.value})
     }
 
+    handleDestroy(e){
+
+        let campusId = e.target.getAttribute('data-key');
+
+        axios.delete(`/api/campus/${campusId}`)
+   
+        axios.get('/api/campus')
+            .then(res => res.data)
+            .then(campus => {
+                this.setState({campus})
+        })
+    }
 
     render(){
+        console.log(this.state.campus)
         
         return(
             <div> 
+
+            <Link to="/addcampus"><button style={{float: "right"}} type="button" className="btn btn-outline-secondary"><h4>+</h4></button></Link>
+            <br/>
+            <br/>
+            <br/>
 
                 <div className="container-fluid">
                    
@@ -49,7 +63,10 @@ export default class Home extends Component{
                                     return (
                                         <li key={campus.id} className="col-xs-6">
                                             <Link to={`/campus/${campus.id}`}> <div style={{backgroundImage: `url(${campus.url})`, height: "200px", backgroundSize: "cover"}}></div></Link>
-                                            {campus.name} 
+                                           
+                                           
+                                            <button data-key={campus.id} onClick={this.handleDestroy} type="button" className="btn btn-danger">DESTROY  <h6>{campus.name}</h6></button>
+
                                         </li>
                                     )
                                 })
@@ -64,23 +81,3 @@ export default class Home extends Component{
     }
 }
 
-
-//  <button onClick={this.handleAddCampus}>Add Campus</button>
-
-                // <form> 
-                //     <fieldset>
-                //         Add Campus
-                //         <input
-                //             className="form-control"
-                //             type="text" 
-                //             onChange={this.handleType}
-                        
-                //         />
-                //     </fieldset>
-                
-                // </form>
-               
-                
-                // <br/>
-                // <br/>
-                

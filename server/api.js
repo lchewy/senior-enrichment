@@ -93,6 +93,8 @@ api.put('/students/:id', (req, res, next) => {
 })
 
 api.delete('/campus/:id', (req, res, next) => {
+	Students.destroy({where: {campusId: req.params.id}})
+	// .then(() => Campus.destroy({where:{id:req.params.id}}))
 	Campus.destroy({where:{id:req.params.id}})
 })
 
