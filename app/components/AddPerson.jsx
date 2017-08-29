@@ -24,27 +24,21 @@ export default class AddPerson extends Component{
     }
 
     handleType(e){
-        // console.log(e.target.value)
         this.setState({inputVal: e.target.value})
-
     }
 
     handleSelect(e){
-        // console.log(e.target.value)
         this.setState({selectedCampus: e.target.value})
     }
 
     handleSubmit(e){
         e.preventDefault();
         axios.post('/api/students', {name: this.state.inputVal, campus: this.state.selectedCampus})
-        //  .then(res => res.data)
-        //  .then(instance => instance.setCampus(this.state.selectedCampus))
-        
+        this.setState({inputVal: ''})
 
     }
 
     render(){
-        // console.log(this.state.campus)
         return(
             <form onSubmit={this.handleSubmit}> 
                 <fieldset>
@@ -68,7 +62,7 @@ export default class AddPerson extends Component{
                             <label className="col-xs-2 control-label">Campus</label>
                              <div className="col-xs-10">
                                 <select className="form-control" onChange={this.handleSelect}>
-                                    <option></option>
+                                
                                     {
                                         this.state.campus.map(campus =>{
                                             return <option key={campus.id} value={campus.id}>{campus.name}</option>

@@ -16,34 +16,13 @@ api.get('/campus', (req,res,next) => {
 	 .then(camps=>{
 		 res.json(camps);
 	 })
-
-	// Promise.all([
-	// 	Campus.create({
-	// 		name: "Luna",
-	// 		url: "http://4.bp.blogspot.com/-8Bl5X0bXY_I/TlsGUp4f63I/AAAAAAAACI4/JSC9aei00ns/s1600/moon.jpg"
-	// 	}),
-	// 	Campus.create({
-	// 		name: "Terra",
-	// 		url: "http://serc.carleton.edu/images/earthlabs/globe_from_terra.jpg"
-	// 	}),
-	// 	Campus.create({
-	// 		name: "Mars",
-	// 		url: "http://space-facts.com/wp-content/uploads/mars.jpg"
-	// 	}),
-	// 	Campus.create({
-	// 		name: "Titan",
-	// 		url: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/PIA20016-SaturnMoon-Titan-20151113.jpg/220px-PIA20016-SaturnMoon-Titan-20151113.jpg"
-	// 	})
-
-	// ]).then( instance => {
-	// 	res.json(instance)
-	// })
-	.catch(console.error)
+	 .catch(console.error)
 
 })
 
 api.get('/campus/:id', (req, res, next) =>{
-	// Campus.findById({where:{id: req.params.id}})
+	// Students.findAll({include: [{ all: true, nested: true }]})
+	// .then(student => res.json(student))
 	Campus.findOne({where: {id: req.params.id}})
 	 .then(camp => {
 		if(!camp) res.sendStatus(404);
@@ -123,3 +102,28 @@ api.delete('/students/:id', (req, res, next) => {
 
 
 module.exports = api
+
+
+
+
+	// Promise.all([
+	// 	Campus.create({
+	// 		name: "Luna",
+	// 		url: "http://4.bp.blogspot.com/-8Bl5X0bXY_I/TlsGUp4f63I/AAAAAAAACI4/JSC9aei00ns/s1600/moon.jpg"
+	// 	}),
+	// 	Campus.create({
+	// 		name: "Terra",
+	// 		url: "http://serc.carleton.edu/images/earthlabs/globe_from_terra.jpg"
+	// 	}),
+	// 	Campus.create({
+	// 		name: "Mars",
+	// 		url: "http://space-facts.com/wp-content/uploads/mars.jpg"
+	// 	}),
+	// 	Campus.create({
+	// 		name: "Titan",
+	// 		url: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/PIA20016-SaturnMoon-Titan-20151113.jpg/220px-PIA20016-SaturnMoon-Titan-20151113.jpg"
+	// 	})
+
+	// ]).then( instance => {
+	// 	res.json(instance)
+	// })

@@ -54,7 +54,7 @@ export default class Students extends Component{
                                 
                                 <tr key={student.id}>
                                     <td >{student.id}</td>
-                                    <td>{student.name}</td>
+                                    <td><Link to={`/students/${student.id}`}>{student.name}</Link></td>
                                     <td>{student.campus.name}</td>
                                     <td ><button data-key={student.id} onClick={this.handleDelete} type="button" className="btn btn-danger">X</button></td>
                                 </tr>

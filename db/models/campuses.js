@@ -11,6 +11,6 @@ module.exports = db.define('campuses', {
   },
   url: {
       type: Sequelize.STRING,
-      allowNull: false
+    //   allowNull: false
   }
 })
