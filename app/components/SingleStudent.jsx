@@ -46,16 +46,17 @@ export default class SingleStudent extends Component {
         e.preventDefault();
         axios.put(`/api/students/${+this.props.match.params.id}`, {id:this.state.selectedCampusId})
         this.setState({campus: this.state.selectedCampus})
+        this.setState({campusId: this.state.selectedCampusId})
     }
 
     render(){
-        // console.log(this.state.selectedCampusId)
+      
         return (
             <div>
                 <h1>{this.state.name} Profile</h1>
                 <br/>
                 <br/>
-                <h3><Link to={`/campus/${+this.state.selectedCampusId}`}>{this.state.campus}</Link></h3>
+                <h3><Link to={`/campus/${this.state.campusId}`}>{this.state.campus}</Link></h3>
                 
                 <form onSubmit={this.handleEdit}>
 

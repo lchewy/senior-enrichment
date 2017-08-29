@@ -9,6 +9,7 @@ export default class Campus extends Component{
             students: [],
             campusName: ''
         }
+    this.handleRemove = this.handleRemove.bind(this);
     }
 
     componentDidMount(){
@@ -24,6 +25,10 @@ export default class Campus extends Component{
          .then(campus =>{
              this.setState({campusName: campus.name})
          })
+    }
+
+    handleRemove(){
+
     }
 
     render(){
