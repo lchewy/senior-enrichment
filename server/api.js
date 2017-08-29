@@ -86,10 +86,13 @@ api.put('/campus/:id', (req, res, next) => {
 })
 
 api.put('/students/:id', (req, res, next) => {
-	Students.findById({where: {id: req.params.id}})
+	Students.findOne({where: {id:req.params.id}})
 	 .then(res => {
-
+		res.update({campusId: req.body.id})
+	 }).then(instance => {
+		 res.json(instance)
 	 })
+	 .catch(console.error)
 })
 
 api.delete('/campus/:id', (req, res, next) => {
