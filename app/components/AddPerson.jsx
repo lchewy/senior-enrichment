@@ -50,6 +50,7 @@ export default class AddPerson extends Component{
                                     className="form-control"
                                     type="text" 
                                     onChange={this.handleType}
+                                    value={this.state.inputVal}
                                 
                                 />
                             </div>

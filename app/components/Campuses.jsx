@@ -35,12 +35,27 @@ export default class Home extends Component{
         let campusId = e.target.getAttribute('data-key');
 
         axios.delete(`/api/campus/${campusId}`)
-   
-        axios.get('/api/campus')
-            .then(res => res.data)
-            .then(campus => {
-                this.setState({campus})
-        })
+        .catch(console.error)
+        // .then(res => res.data)
+        // .then(() =>{
+        //     axios.get('/api/campus')
+        //     .then(res => res.data)
+        //     .then(campus => {
+        //         this.setState({campus})
+        //     })
+        // })
+        // .catch(console.error);
+
+        // let remove = axios.delete(`/api/campus/${campusId}`)    
+        // Promise.all([])
+        
+        // axios.get('/api/campus')
+        //     .then(res => res.data)
+        //     .then(campus => {
+        //         this.setState({campus})
+        // })
+        // console.log('clicking', this.state.campus)
+        // this.setState({})
     }
 
     render(){

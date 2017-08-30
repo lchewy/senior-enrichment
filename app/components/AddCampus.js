@@ -26,10 +26,13 @@ export default class AddCampus extends Component{
         e.preventDefault();
 
         // this.state.campus.forEach(el => console.log(el.name.toLowerCase()))
-        console.log(this.state.inputVal.toLowerCase())
+        // console.log(this.state.inputVal.toLowerCase())
         // el.name.toLowerCase() === this.state.inputVal.toLowerCase()? alert('Campus already exist!'):null
 
         axios.post('/api/campus', {name: this.state.inputVal, url: randUrl()})
+         .catch(console.error);
+
+        this.setState({inputVal: ''})
 
     }
 
@@ -51,6 +54,7 @@ export default class AddCampus extends Component{
                             className="form-control"
                             type="text" 
                             onChange={this.handleType}
+                            value={this.state.inputVal}
                             required 
                         />
 
