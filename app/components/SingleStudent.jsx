@@ -56,11 +56,12 @@ export default class SingleStudent extends Component {
                 <h1>{this.state.name} Profile</h1>
                 <br/>
                 <br/>
-                <h3><Link to={`/campus/${this.state.campusId}`}>{this.state.campus}</Link></h3>
+                <h3>Campus:<Link to={`/campus/${this.state.campusId}`}> {this.state.campus}</Link></h3>
                 
                 <form onSubmit={this.handleEdit}>
 
-                    <select  onChange={this.handleSelect} required>
+                    <select className="form-control" onChange={this.handleSelect} required>
+                        <option></option>
                     {
                         this.state.campuses.map(campus => {
                             return (

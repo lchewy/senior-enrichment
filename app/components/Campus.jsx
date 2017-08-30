@@ -41,7 +41,7 @@ export default class Campus extends Component{
                     {
                         this.state.students.map(student => {
                             return(
-                                <li key={student.id}><Link to={`/students/${student.id}`}>{student.name}</Link></li>
+                                <li key={student.id}><h3><Link to={`/students/${student.id}`}>{student.name}</Link></h3></li>
                             )
                         })
                     }

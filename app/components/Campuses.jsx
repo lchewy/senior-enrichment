@@ -34,20 +34,26 @@ export default class Home extends Component{
 
         let campusId = e.target.getAttribute('data-key');
 
-        axios.delete(`/api/campus/${campusId}`)
-        .catch(console.error)
-        // .then(res => res.data)
+        // axios.delete(`/api/campus/${campusId}`)
+        // .then(()=>this.setState({}))
+        
+        
         // .then(() =>{
-        //     axios.get('/api/campus')
-        //     .then(res => res.data)
-        //     .then(campus => {
-        //         this.setState({campus})
-        //     })
+        //     // axios.get('/api/campus')
+        //     // .then(res => res.data)
+        //     // .then(campus => {
+        //     //   this.setState({campus})
+        //     // })
+        //     this.setState({})
         // })
         // .catch(console.error);
 
-        // let remove = axios.delete(`/api/campus/${campusId}`)    
-        // Promise.all([])
+        // this.setState({inputVal:''})
+        
+
+        let remove = axios.delete(`/api/campus/${campusId}`).catch(console.error)
+        let getCampus = axios.get('/api/campus').then(res => res.data).then(campus=>this.setState({campus}))  
+        Promise.all([remove, getCampus])
         
         // axios.get('/api/campus')
         //     .then(res => res.data)
@@ -59,12 +65,11 @@ export default class Home extends Component{
     }
 
     render(){
-        console.log(this.state.campus)
         
         return(
             <div> 
 
-            <Link to="/addcampus"><button style={{float: "right"}} type="button" className="btn btn-outline-secondary"><h4>+</h4></button></Link>
+            <Link to="/addcampus"><button style={{float: "right"}} type="button" className="btn btn-outline-secondary"><h4>Create Campus</h4></button></Link>
             <br/>
             <br/>
             <br/>
