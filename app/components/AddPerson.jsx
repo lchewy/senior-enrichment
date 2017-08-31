@@ -1,14 +1,13 @@
 import React, {Component} from 'react';
-import axios from 'axios'
+import store from '../store';
+import {fetchCampuses, inputValue, getCampusId, postStudent} from '../reducers/index';
+
+
 
 export default class AddPerson extends Component{
     constructor(props){
         super(props);
-        this.state={
-            campus: [],
-            inputVal: '',
-            selectedCampus: ''
-        }
+        this.state= store.getState();
 
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleType = this.handleType.bind(this);
@@ -16,25 +15,27 @@ export default class AddPerson extends Component{
     }
 
     componentDidMount(){
-        axios.get('/api/campus')
-        .then(res => res.data)
-        .then(campus => {
-            this.setState({campus})
-        })
+        this.unsubscribe = store.subscribe(() => this.setState(store.getState()));        
+        store.dispatch(fetchCampuses());
+        
     }
 
-    handleType(e){
-        this.setState({inputVal: e.target.value})
+    componentWillUnmount(){
+        this.unsubscribe();
     }
 
-    handleSelect(e){
-        this.setState({selectedCampus: e.target.value})
+    handleType(event){
+        store.dispatch(inputValue(event.target.value))
+    }
+
+    handleSelect(event){
+        store.dispatch(getCampusId(event.target.value))
     }
 
     handleSubmit(e){
         e.preventDefault();
-        axios.post('/api/students', {name: this.state.inputVal, campus: this.state.selectedCampus})
-        this.setState({inputVal: ''})
+        store.dispatch(postStudent(this.state.inputValue, this.state.campusId));
+        store.dispatch(inputValue(''))
 
     }
 
@@ -50,7 +51,7 @@ export default class AddPerson extends Component{
                                     className="form-control"
                                     type="text" 
                                     onChange={this.handleType}
-                                    value={this.state.inputVal}
+                                    value={this.state.inputValue}
                                 
                                 />
                             </div>
@@ -65,7 +66,7 @@ export default class AddPerson extends Component{
                                 <select className="form-control" onChange={this.handleSelect} required>
                                     <option></option>
                                     {
-                                        this.state.campus.map(campus =>{
+                                        this.state.campuses.map(campus =>{
                                             return <option key={campus.id} value={campus.id}>{campus.name}</option>
                                         })
                                     }

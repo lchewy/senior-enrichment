@@ -23,11 +23,18 @@ api.get('/campus', (req,res,next) => {
 api.get('/campus/:id', (req, res, next) =>{
 	// Students.findAll({include: [{ all: true, nested: true }]})
 	// .then(student => res.json(student))
-	Campus.findOne({where: {id: req.params.id}})
-	 .then(camp => {
-		if(!camp) res.sendStatus(404);
-		else res.json(camp);
-	 })
+	// Campus.findOne({where: {id: req.params.id}})
+	//  .then(camp => {
+	// 	// if(!camp) res.sendStatus(404);
+	// 	// else res.json(camp);
+	// 	res.json(camp);
+	//  })
+	//  .catch(console.error)
+	Campus.findAll({where: {id: req.params.id}, include: [{model:Students}]})
+	  .then(campus => {
+		  res.json(campus)
+	  })
+	  .catch(console.error)
 	 
 })
 
@@ -40,38 +47,40 @@ api.get('/students', (req,res,next) => {
 })
 
 api.get('/students/:id', (req,res,next) => {
-	Students.findOne({where:{id:req.params.id}})
-	 .then(student =>{
-		 if(!student) res.sendStatus(404)
-		 else res.json(student)
-	 })
+	// Students.findOne({where:{id:req.params.id}})
+	//  .then(student =>{
+	// 	//  if(!student) res.sendStatus(404)
+	// 	//  else res.json(student)
+	// 	res.json(student)
+	//  })
+	//  .catch(console.error)
+	Students.findAll({where:{id: req.params.id}, include:[{model:Campus, as:"campus"}]})
+	  .then(student => {
+		  res.json(student);
+	  })
+	  .catch(console.error)
 })
 
 api.post('/campus', (req, res, next) =>{
 	Campus.create(req.body)
-	 .then(newCamp => {
-		 res.json(newCamp);
+	 .then(() => {
+		 return Campus.findAll();
 	 })
+	 .then(campuses => res.json(campuses))
 	 .catch(() => res.sendStatus(500))
 })
 
 api.post('/students', (req, res, next) => {
 	Students.create(req.body)
 	 .then(newStudent => {
-		//  console.log(req.body)
-		newStudent.setCampus(req.body.campus);
-		res.json(newStudent);
+		newStudent.setCampus(req.body.campusId);
 	 })
+	 .then(() =>{
+		 return Students.findAll({include: [{ all: true, nested: true }]});
+	 })
+	 .then(students => res.json(students))
 	 .catch(() => res.sendStatus(500));
 
-	// Campus.findAll({where: {name: req.body.school}})
-	//  .then(school => {
-	// 	 if(school.length === 0) res.status(404).send('wrong school name')
-	// 	 else return Students.create(req.body)
-	//  }).then(student => {
-	// 	res.json(student)
-	//  })
-	//  .catch(() => res.sendStatus(500));
 })
 
 api.put('/campus/:id', (req, res, next) => {
@@ -96,15 +105,31 @@ api.put('/students/:id', (req, res, next) => {
 })
 
 api.delete('/campus/:id', (req, res, next) => {
+
 	Students.destroy({where: {campusId: req.params.id}})
-	.catch(console.error)
-	// .then(() => Campus.destroy({where:{id:req.params.id}}))
-	Campus.destroy({where:{id:req.params.id}})
-	.catch(console.error)
+	  .then(() =>{
+		Campus.destroy({where:{id:req.params.id}})
+	  })
+	  .then(()=>{
+		//   return Students.findAll({include: [{ all: true, nested: true }]})
+		return Campus.findAll();
+	  })
+	  .then(campuses => {
+		  res.json(campuses)
+	  })
+	  .catch(console.error)
 })
 
 api.delete('/students/:id', (req, res, next) => {
+
 	Students.destroy({where:{id:req.params.id}})
+	  .then(() =>{
+		  return Students.findAll({include: [{ all: true, nested: true }]})
+	  })
+	  .then(students =>{
+		  res.json(students)
+	  })
+	  .catch(console.error)
 })
 
 
@@ -134,3 +159,20 @@ module.exports = api
 	// ]).then( instance => {
 	// 	res.json(instance)
 	// })
+
+		// Students.destroy({where: {campusId: req.params.id}})   DELETE CAMPUS
+	// .catch(console.error)
+	// // .then(() => Campus.destroy({where:{id:req.params.id}}))
+	// Campus.destroy({where:{id:req.params.id}})
+	//  .then(() => res.status(204).end())
+	// .catch(console.error)
+
+
+	// Campus.findAll({where: {name: req.body.school}})
+	//  .then(school => {
+	// 	 if(school.length === 0) res.status(404).send('wrong school name')
+	// 	 else return Students.create(req.body)
+	//  }).then(student => {
+	// 	res.json(student)
+	//  })
+	//  .catch(() => res.sendStatus(500));

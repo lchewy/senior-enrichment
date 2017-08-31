@@ -1,49 +1,40 @@
 import React, {Component} from 'react';
-import axios from 'axios'
+import store from '../store';
+import {inputValue, postCampus} from '../reducers/index';
 
 export default class AddCampus extends Component{
 
     constructor(){
         super();
-        this.state = {
-            campus: [],
-            inputVal: ''
-        }
+        this.state = store.getState();
 
         this.handleAddCampus = this.handleAddCampus.bind(this);
         this.handleType = this.handleType.bind(this);
     }
 
     componentDidMount(){
-        axios.get('/api/campus')
-        .then(res => res.data)
-        .then(campus => {
-            this.setState({campus})
-        })
+        this.unsubscribe = store.subscribe(() => this.setState(store.getState())); 
+    }
+
+    componentWillUnmount(){
+        this.unsubscribe();
+    }
+
+    handleType(event){
+        store.dispatch(inputValue(event.target.value));
     }
 
     handleAddCampus(e){
+    
         e.preventDefault();
+        store.dispatch(postCampus(this.state.inputValue, randUrl()))
+        store.dispatch(inputValue(''))
 
-        // this.state.campus.forEach(el => console.log(el.name.toLowerCase()))
-        // console.log(this.state.inputVal.toLowerCase())
-        // el.name.toLowerCase() === this.state.inputVal.toLowerCase()? alert('Campus already exist!'):null
 
-        axios.post('/api/campus', {name: this.state.inputVal, url: randUrl()})
-         .catch(console.error);
-
-        this.setState({inputVal: ''})
-
-    }
-
-    handleType(e){
-        // console.log(e.target.value)
-        this.setState({inputVal: e.target.value})
     }
 
 
     render(){
-        console.log(this.state.campus)
         
         return(
             <div> 
@@ -54,7 +45,7 @@ export default class AddCampus extends Component{
                             className="form-control"
                             type="text" 
                             onChange={this.handleType}
-                            value={this.state.inputVal}
+                            value={this.state.inputValue}
                             required 
                         />
 

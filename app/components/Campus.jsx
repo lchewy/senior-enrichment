@@ -1,38 +1,50 @@
 import React, {Component} from 'react';
-import axios from 'axios';
 import {Link} from 'react-router-dom';
+import store from '../store';
+import {fetchStudents, getCampusName} from '../reducers/index';
+
 
 export default class Campus extends Component{
     constructor(props){
         super(props);
-        this.state = {
-            students: [],
-            campusName: ''
-        }
-    this.handleRemove = this.handleRemove.bind(this);
+        this.state = store.getState();
+        // {
+        //     students: [],
+        //     campusName: ''
+        // }
+    // this.handleRemove = this.handleRemove.bind(this);
     }
 
     componentDidMount(){
-        axios.get('/api/students')
-         .then(res => res.data)
-         .then(students =>{
-             this.setState({students: students.filter(x => x.campusId === +this.props.match.params.id)})
-         })
-         .catch(console.error)
+        this.unsubscribe = store.subscribe(() => this.setState(store.getState()));
+        // axios.get('/api/students')
+        //  .then(res => res.data)
+        //  .then(students =>{
+        //     //  this.setState({students: students.filter(x => x.campusId === +this.props.match.params.id)})
+        //     this.setState({students})
+        //  })
+        //  .catch(console.error)
 
-         axios.get(`api/campus/${+this.props.match.params.id}`)
-         .then(res => res.data)
-         .then(campus =>{
-             this.setState({campusName: campus.name})
-         })
+        //  axios.get(`api/campus/${+this.props.match.params.id}`)
+        //  .then(res => res.data)
+        //  .then(campus =>{
+        //      this.setState({campusName: campus.name})
+        //  })
+
+        store.dispatch(fetchStudents());
+        store.dispatch(getCampusName(+this.props.match.params.id));
+
+
     }
 
-    handleRemove(){
-
+    componentWillUnmount(){
+        this.unsubscribe();
     }
 
     render(){
-    
+        const studentCampus = this.state.students.filter(student => student.campusId === +this.props.match.params.id);
+        // console.log( studentCampus.map(x=>x.campus.name)[0])
+        console.log(studentCampus)
         return(
             <div>
                 <h1>Welcome to the {this.state.campusName} Campus</h1>

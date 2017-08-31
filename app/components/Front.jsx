@@ -25,7 +25,7 @@ export default class Front extends Component {
                 <Route path="/newstudent" component={AddPerson} />
                 <Route exact path="/addcampus" component={AddCampus} />
                 <Route exact path="/campus/:id" component={Campus} />
-                <Route exact path="/students/:id" component={SingleStudent} />
+              
               
             </Switch>
           </div>
@@ -35,10 +35,5 @@ export default class Front extends Component {
   }
 }
 
-// <Route exact path="/albums" component={StatefulAlbums} />
-//               <Route path="/albums/:albumId" component={SingleAlbum} />
-//               <Route exact path="/artists" component={AllArtists} />
-//               <Route path="/artists/:artistId" component={SingleArtist} />
-//               <Route component={StatefulAlbums} />
 
-// <Route exact path="/" component={Home} />
+  // <Route exact path="/students/:id" component={SingleStudent} />

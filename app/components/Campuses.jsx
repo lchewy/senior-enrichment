@@ -1,75 +1,42 @@
 import React, {Component} from 'react';
 import Navbar from './Navbar';
-import axios from 'axios'
-import {Link} from 'react-router-dom'
+import {Link} from 'react-router-dom';
+import store from '../store';
+import AddCampus from './AddCampus';
+import {fetchCampuses, deleteCampus, handleClick} from '../reducers/index';
 
 export default class Home extends Component{
 
     constructor(){
         super();
-        this.state = {
-            campus: [],
-            inputVal: ''
-        }
-
-        this.handleType = this.handleType.bind(this);
-        this.handleDestroy = this.handleDestroy.bind(this);
+        this.state = store.getState();
+        this.click = this.click.bind(this);
     }
 
     componentDidMount(){
-        axios.get('/api/campus')
-        .then(res => res.data)
-        .then(campus => {
-            this.setState({campus})
-        })
+        this.unsubscribe = store.subscribe(() => this.setState(store.getState()));
+        store.dispatch(fetchCampuses())
     }
 
-
-
-    handleType(e){
-        this.setState({inputVal: e.target.value})
+     componentWillUnmount () {
+        this.unsubscribe();
     }
 
-    handleDestroy(e){
+    handleDestroy(id){
+        store.dispatch(deleteCampus(id))
+    }
 
-        let campusId = e.target.getAttribute('data-key');
-
-        // axios.delete(`/api/campus/${campusId}`)
-        // .then(()=>this.setState({}))
-        
-        
-        // .then(() =>{
-        //     // axios.get('/api/campus')
-        //     // .then(res => res.data)
-        //     // .then(campus => {
-        //     //   this.setState({campus})
-        //     // })
-        //     this.setState({})
-        // })
-        // .catch(console.error);
-
-        // this.setState({inputVal:''})
-        
-
-        let remove = axios.delete(`/api/campus/${campusId}`).catch(console.error)
-        let getCampus = axios.get('/api/campus').then(res => res.data).then(campus=>this.setState({campus}))  
-        Promise.all([remove, getCampus])
-        
-        // axios.get('/api/campus')
-        //     .then(res => res.data)
-        //     .then(campus => {
-        //         this.setState({campus})
-        // })
-        // console.log('clicking', this.state.campus)
-        // this.setState({})
+    click(){
+        store.dispatch(handleClick());
     }
 
     render(){
-        
+        // console.log(this.state)
         return(
             <div> 
 
-            <Link to="/addcampus"><button style={{float: "right"}} type="button" className="btn btn-outline-secondary"><h4>Create Campus</h4></button></Link>
+           {/* <Link to="/addcampus"><button style={{float: "right"}} type="button" className="btn btn-outline-secondary"><h4>Create Campus</h4></button></Link>*/}
+            <button onClick={this.click} style={{float: "right"}} type="button" className="btn btn-outline-secondary"><h4>Create Campus</h4></button>
             <br/>
             <br/>
             <br/>
@@ -79,13 +46,13 @@ export default class Home extends Component{
                     <div className="row"> 
                         <ul id="campus-grid" className="list-unstyled">
                             {
-                                this.state.campus.map(campus => {
+                                this.state.campuses.map(campus => {
                                     return (
                                         <li key={campus.id} className="col-xs-6">
                                             <Link to={`/campus/${campus.id}`}> <div style={{backgroundImage: `url(${campus.url})`, height: "200px", backgroundSize: "cover"}}></div></Link>
                                            
                                            
-                                            <button data-key={campus.id} onClick={this.handleDestroy} type="button" className="btn btn-danger">DESTROY  <h6>{campus.name}</h6></button>
+                                            <button  onClick={this.handleDestroy.bind(this, campus.id)} type="button" className="btn btn-danger">DESTROY  <h6>{campus.name}</h6></button>
 
                                         </li>
                                     )
@@ -94,7 +61,17 @@ export default class Home extends Component{
                         </ul>
                     </div>
 
-
+                    <br/>
+                    <br/>
+                    <div>
+                    {
+                        this.state.gotClick && <AddCampus />
+                    }
+                        
+                    </div>
+                    
+                    <br/>
+                    <br/>
                 </div>
             </div>
         )
