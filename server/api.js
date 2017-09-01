@@ -47,18 +47,18 @@ api.get('/students', (req,res,next) => {
 })
 
 api.get('/students/:id', (req,res,next) => {
-	// Students.findOne({where:{id:req.params.id}})
-	//  .then(student =>{
-	// 	//  if(!student) res.sendStatus(404)
-	// 	//  else res.json(student)
-	// 	res.json(student)
-	//  })
-	//  .catch(console.error)
-	Students.findAll({where:{id: req.params.id}, include:[{model:Campus, as:"campus"}]})
-	  .then(student => {
-		  res.json(student);
-	  })
-	  .catch(console.error)
+	Students.findOne({where:{id:req.params.id}})
+	 .then(student =>{
+		//  if(!student) res.sendStatus(404)
+		//  else res.json(student)
+		res.json(student)
+	 })
+	 .catch(console.error)
+	// Students.findAll({where:{id: req.params.id}, include:[{model:Campus, as:"campus"}]})
+	//   .then(student => {
+	// 	  res.json(student);
+	//   })
+	//   .catch(console.error)
 })
 
 api.post('/campus', (req, res, next) =>{
@@ -131,7 +131,31 @@ api.delete('/students/:id', (req, res, next) => {
 	  })
 	  .catch(console.error)
 })
+/* ---------------TEST API------------------*/
+api.get('/singlecampus/:id/', (req,res,next) =>{
+	Campus.findOne({where:{id:req.params.id}})
+	 .then(campus => {
+		res.json(campus)
+	 })
+	 .catch(console.error)
+})
 
+
+api.get('/singlestudent/:id/', (req,res,next) =>{
+	Students.findOne({where:{id:req.params.id}, include:[{model:Campus, as:"campus"}]})
+	 .then(campus => {
+		res.json(campus)
+	 })
+	 .catch(console.error)
+})
+
+api.get('/singlecampus2/:id', (req,res,next) =>{
+	Campus.findOne({where:{id:req.params.id}, include:[{model:Students, as: "students"}]})
+	 .then(campus => {
+		res.json(campus)
+	 })
+	 .catch(console.error)
+})
 
 module.exports = api
 

@@ -1,13 +1,15 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 import store from '../store';
-import {fetchStudents, deleteStudent} from '../reducers/index';
+import {fetchStudents, deleteStudent, handleClick} from '../reducers/index';
+import AddPerson from './AddPerson';
 
 
 export default class Students extends Component{
     constructor(props){
         super(props);
         this.state = store.getState();
+        this.click = this.click.bind(this);
     }
 
     componentDidMount(){
@@ -19,6 +21,10 @@ export default class Students extends Component{
         this.unsubscribe();
     }
 
+    click(){
+        store.dispatch(handleClick())
+    }
+
     handleDelete(id, event){
         store.dispatch(deleteStudent(id));   
     }
@@ -26,7 +32,9 @@ export default class Students extends Component{
     render(){
     return(
       <div>
-        <Link to="/newstudent"><button style={{float: "right"}} type="button" className="btn btn-outline-secondary"><h4>Add Student</h4></button></Link>
+        {/*<Link to="/newstudent"><button style={{float: "right"}} type="button" className="btn btn-outline-secondary"><h4>Add Student</h4></button></Link>*/}
+    {/*<button onClick={this.click} style={{float: "right"}} type="button" className="btn btn-outline-secondary"><h4>Add Student</h4></button>*/}
+         <AddPerson />
         <br/>
         <br/>
         <table className="table">
@@ -57,8 +65,7 @@ export default class Students extends Component{
             </tbody>
         </table>
     
-    
-
+       
       
       </div>
     )

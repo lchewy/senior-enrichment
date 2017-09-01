@@ -8,7 +8,9 @@ const initialState = {
     inputValue: '',
     gotClick: false,
     campusId: 0,
-    campusName: ''
+    campusName: '',
+    campus: [],
+    studentName: '', // KEEP TRACK OF THIS SHIT!!
 }
 
 const GET_CAMPUSES = "GET_CAMPUSES";
@@ -17,6 +19,14 @@ const INPUT_VALUE = "INPUT_VALUE";
 const CLICK_ME = "CLICK_ME";
 const GET_CAMPUS_ID = "GET_CAMPUS_ID";
 const GET_CAMPUS_NAME = "GET_CAMPUS_NAME";
+const CLICK_OFF = "CLICK_OFF";
+const GET_SINGLE_CAMPUS = "GET_SINGLE_CAMPUS"
+const GET_STUDENT_NAME = "GET_STUDENT_NAME"
+
+let getSingleCampus = (campus) => {
+    const action = {type: GET_SINGLE_CAMPUS, campus};
+    return action
+}
 
 let getCampuses =(campuses) => {
     const action = {type: GET_CAMPUSES, campuses};
@@ -43,10 +53,11 @@ let handleClick = () => {
     return action;
 }
 
-let getCampusName = (campusName) => {
-    const action = {type: GET_CAMPUS_NAME, campusName};
+let clickOff = () => {
+    const action = {type: CLICK_OFF, gotClick: false};
     return action;
 }
+
 
 let fetchCampuses = () => dispatch => {
     return axios.get("/api/campus")
@@ -57,7 +68,6 @@ let fetchCampuses = () => dispatch => {
       })
 }
 
-let fetchCampusName 
 
 let fetchStudents = students => dispatch => {
     return axios.get("/api/students")
@@ -104,9 +114,57 @@ let postCampus = (inputValue, randUrl) => dispatch => {
       })
 }
 
+// let fetchSingleCampus = (campId) => dispatch => {
+//     return axios.get(`/api/campus/${campId}`)
+//      .then(res => res.data)
+//      .then(campus => {
+//         const action = getSingleCampus(campus);
+//         dispatch(action);
+//      })
+// }
 
+
+/* ---------------------- */
+
+let getCampusName = (campusName) => {
+    const action = {type: GET_CAMPUS_NAME, campusName};
+    return action;
+}
+
+let fetchCampusName = campusId => dispatch => {
+    return axios.get(`/api/singlecampus/${campusId}`)
+      .then(res => res.data)
+      .then(campus => {
+          const action = getCampusName(campus.name);
+          dispatch(action);
+      })
+}
+
+let getStudentName = studentName =>{
+    const action = {type: GET_STUDENT_NAME, studentName};
+    return action;
+}
+
+let fetchStudentName = studentId => dispatch => {
+    return axios.get(`/api/students/${studentId}`)
+      .then(res => res.data)
+      .then(student => {
+          const action = getStudentName(student.name);
+          dispatch(action);
+      })
+}
+
+let fetchStudentCampusId = studentId => dispatch => {
+    return axios.get(`/api/students/${studentId}`)
+      .then(res => res.data)
+      .then(student => {
+          const action = getCampusId(student.campusId);
+          dispatch(action);
+      })
+}
 
 export {
+    clickOff,
     getCampuses, 
     getStudents, 
     inputValue,
@@ -118,7 +176,12 @@ export {
     deleteCampus,
     deleteStudent,
     postStudent,
-    postCampus
+    postCampus,
+    // fetchSingleCampus,
+    fetchCampusName,
+    getStudentName,
+    fetchStudentName,
+    fetchStudentCampusId
 };
 
 let rootReducer = (state = initialState, action)=>{
@@ -134,7 +197,7 @@ let rootReducer = (state = initialState, action)=>{
           return Object.assign({}, state, {inputValue: action.inputValue});
         
         case CLICK_ME:
-          return Object.assign({}. state, {gotClick: action.gotClick});
+          return {gotClick: action.gotClick};
         
         case GET_CAMPUS_ID:
           return Object.assign({}, state, {campusId: action.campusId});
@@ -142,6 +205,15 @@ let rootReducer = (state = initialState, action)=>{
         case GET_CAMPUS_NAME:
           return Object.assign({}, state, {campusName: action.campusName})
         
+        case CLICK_OFF:
+          return {gotClick: action.gotClick}
+
+        case GET_SINGLE_CAMPUS:
+          return Object.assign({}, state, {campus: action.campus})
+
+        case GET_STUDENT_NAME:
+          return Object.assign({}, state, {studentName: action.studentName})
+
         default:
           return state;
     }

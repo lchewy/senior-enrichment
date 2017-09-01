@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import store from '../store';
-import {inputValue, postCampus} from '../reducers/index';
+import {inputValue, postCampus, clickOff} from '../reducers/index';
 
 export default class AddCampus extends Component{
 
@@ -29,7 +29,7 @@ export default class AddCampus extends Component{
         e.preventDefault();
         store.dispatch(postCampus(this.state.inputValue, randUrl()))
         store.dispatch(inputValue(''))
-
+        store.dispatch(clickOff())
 
     }
 

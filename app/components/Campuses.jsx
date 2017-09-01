@@ -44,6 +44,7 @@ export default class Home extends Component{
                 <div className="container-fluid">
                    
                     <div className="row"> 
+        
                         <ul id="campus-grid" className="list-unstyled">
                             {
                                 this.state.campuses.map(campus => {
@@ -65,7 +66,7 @@ export default class Home extends Component{
                     <br/>
                     <div>
                     {
-                        this.state.gotClick && <AddCampus />
+                        this.state.gotClick && <div> <AddCampus /></div>
                     }
                         
                     </div>

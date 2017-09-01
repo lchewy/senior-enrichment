@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import store from '../store';
-import {fetchStudents, getCampusName} from '../reducers/index';
+import {fetchStudents, getCampusName, fetchCampusName} from '../reducers/index';
 
 
 export default class Campus extends Component{
@@ -32,7 +32,8 @@ export default class Campus extends Component{
         //  })
 
         store.dispatch(fetchStudents());
-        store.dispatch(getCampusName(+this.props.match.params.id));
+        // store.dispatch(fetchSingleCampus(+this.props.match.params.id));
+        store.dispatch(fetchCampusName(+this.props.match.params.id));
 
 
     }
@@ -42,16 +43,24 @@ export default class Campus extends Component{
     }
 
     render(){
-        const studentCampus = this.state.students.filter(student => student.campusId === +this.props.match.params.id);
+        // const studentCampus = this.state.students.filter(student => student.campusId === +this.props.match.params.id);
         // console.log( studentCampus.map(x=>x.campus.name)[0])
-        console.log(studentCampus)
+        // console.log(studentCampus)
+        // console.log("hello",  this.state.campus)
+        // const name = this.state.campus.map(x => x)
+        // console.log('asdfa', this.state)
+        const filterStudents = this.state.students.filter(student => student.campusId === +this.props.match.params.id)
+
         return(
             <div>
                 <h1>Welcome to the {this.state.campusName} Campus</h1>
-                
+                <br/>
+                <br/>
+                <h2>Our Students</h2>
                 <ul>
                     {
-                        this.state.students.map(student => {
+                        filterStudents.map(student => {
+
                             return(
                                 <li key={student.id}><h3><Link to={`/students/${student.id}`}>{student.name}</Link></h3></li>
                             )
@@ -62,3 +71,4 @@ export default class Campus extends Component{
         )
     }
 }
+// this.state.campus[0].name ? this.state.campus[0].name : null
