@@ -26,7 +26,7 @@ export default class SingleStudent extends Component {
          store.dispatch(fetchCampuses());
          store.dispatch(fetchStudentCampusId(this.props.match.params.id));
          store.dispatch(fetchStudentName(this.props.match.params.id));
-         store.dispatch(fetchCampusName(this.state.campusName))
+         store.dispatch(fetchCampusName(this.state.campus))
          
         // axios.get('/api/campus')
         // .then(res => res.data)
@@ -65,13 +65,15 @@ export default class SingleStudent extends Component {
     }
 
     render(){
-        console.log(this.state)
+        console.log('jello', this.state)
+        let mainCampus = Object.assign({},this.state.campuses.filter(campus=>campus.id === this.state.campusId)[0]);
+        console.log(mainCampus.name)
         return (
             <div>
                 <h1>{this.state.studentName} Profile</h1>
                 <br/>
                 <br/>
-                <h3>Campus:<Link to={`/campus/${this.state.campusId}`}> {this.state.campus}</Link></h3>
+                <h3>Campus:<Link to={`/campus/${this.state.campusId}`}> {mainCampus.name}</Link></h3>
                 
                 <form onSubmit={this.handleEdit}>
 
@@ -94,3 +96,5 @@ export default class SingleStudent extends Component {
         )
     }
 }
+
+// this.state.campus

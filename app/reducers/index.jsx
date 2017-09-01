@@ -126,8 +126,8 @@ let postCampus = (inputValue, randUrl) => dispatch => {
 
 /* ---------------------- */
 
-let getCampusName = (campusName) => {
-    const action = {type: GET_CAMPUS_NAME, campusName};
+let getCampusName = (campus) => {
+    const action = {type: GET_CAMPUS_NAME, campus};
     return action;
 }
 
@@ -203,7 +203,7 @@ let rootReducer = (state = initialState, action)=>{
           return Object.assign({}, state, {campusId: action.campusId});
         
         case GET_CAMPUS_NAME:
-          return Object.assign({}, state, {campusName: action.campusName})
+          return Object.assign({}, state, {campus: action.campus})
         
         case CLICK_OFF:
           return {gotClick: action.gotClick}

@@ -157,6 +157,13 @@ api.get('/singlecampus2/:id', (req,res,next) =>{
 	 .catch(console.error)
 })
 
+// api.get('/studentwithcampuses/:id', (req,res,next) =>{
+// 	Campus.findAll({include:[{model:Students, where:{id:req.params.id}}]})
+// 	 .then(campus => {
+// 		 res.json(campus)
+// 	 })
+// })
+
 module.exports = api
 
 
