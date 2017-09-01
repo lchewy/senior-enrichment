@@ -46,7 +46,7 @@ export default class Students extends Component{
                 </tr>
                 
                     {
-                        this.state.students.map((student, ind) =>{
+                        this.state.students ? this.state.students.map((student, ind) =>{
             
                             return (
                                 
@@ -58,7 +58,7 @@ export default class Students extends Component{
                                 </tr>
                                 
                             )
-                        })
+                        }) : <div>no students</div>
                     }
 
                 
