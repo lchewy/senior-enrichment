@@ -48,8 +48,8 @@ export default class Campus extends Component{
         // console.log(studentCampus)
         // console.log("hello",  this.state.campus)
         // const name = this.state.campus.map(x => x)
-        console.log('asdfa', this.state)
-        const filterStudents = this.state.students.filter(student => student.campusId === +this.props.match.params.id)
+        console.log('asdfa', this.state.students)
+        const filterStudents = this.state.students && this.state.students.filter(student => student.campusId === +this.props.match.params.id) 
 
         return(
             <div>
@@ -59,7 +59,7 @@ export default class Campus extends Component{
                 <h2>Our Students</h2>
                 <ul>
                     {
-                        filterStudents.map(student => {
+                        this.state.students && filterStudents.map(student => {
 
                             return(
                                 <li key={student.id}><h3><Link to={`/students/${student.id}`}>{student.name}</Link></h3></li>
